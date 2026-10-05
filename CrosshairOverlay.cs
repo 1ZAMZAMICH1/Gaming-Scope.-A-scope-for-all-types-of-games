@@ -39,7 +39,6 @@ namespace CrosshairApp
             SetWindowLong(Handle, GWL_EXSTYLE, GetWindowLong(Handle, GWL_EXSTYLE) | WS_EX_LAYERED | WS_EX_TRANSPARENT);
             SetWindowPos(Handle, new IntPtr(-1), 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0040);
             
-            // Запускаем поток для чтения команд от Electron интерфейса
             Thread t = new Thread(new ThreadStart(ReadInput));
             t.IsBackground = true;
             t.Start();
@@ -52,7 +51,6 @@ namespace CrosshairApp
                     string line = Console.ReadLine();
                     if(line == null) break; 
                     
-                    // Формат: SHAPE|SIZE|THICK|#COLOR|VISIBLE
                     string[] parts = line.Split('|');
                     if(parts.Length == 5) {
                         cShape = parts[0];
@@ -60,7 +58,7 @@ namespace CrosshairApp
                         cThick = int.Parse(parts[2]);
                         cColor = ColorTranslator.FromHtml(parts[3]);
                         isVisible = parts[4] == "1";
-                        this.Invoke(new MethodInvoker(delegate { this.Invalidate(); })); // Перерисовываем прицел
+                        this.Invoke(new MethodInvoker(delegate { this.Invalidate(); }));
                     }
                 }
             } catch {}

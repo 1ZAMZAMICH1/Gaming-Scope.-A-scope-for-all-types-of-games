@@ -21,7 +21,6 @@ function update() {
     });
 }
 
-// Initial draw signal
 setTimeout(update, 500);
 
 let isBinding = false;
@@ -37,7 +36,6 @@ window.addEventListener('keydown', (e) => {
         let key = e.key;
         if(key.length === 1) key = key.toUpperCase();
         
-        // Handling special cases
         if (key === 'Control') key = 'Ctrl';
         if (key === 'Escape') key = 'Esc';
         

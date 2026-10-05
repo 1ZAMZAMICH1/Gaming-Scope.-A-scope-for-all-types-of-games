@@ -1,7 +1,5 @@
 node_modules/
-dist/win-unpacked/
-dist/builder-debug.yml
-dist/builder-effective-config.yaml
+dist/
 *.log
 .DS_Store
-Запустить_Прицел.bat
+*.bat

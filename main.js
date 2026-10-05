@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain, globalShortcut } = require('electron');
+app.disableHardwareAcceleration();
 const path = require('path');
 const { spawn } = require('child_process');
 
@@ -10,17 +11,14 @@ let csharpProcess = null;
 function sendToCSharp() {
     if (csharpProcess && !csharpProcess.killed) {
         let vis = isVisible ? "1" : "0";
-        // Отправляем данные в C# модуль
         csharpProcess.stdin.write(`${currentConfig.shape}|${currentConfig.size}|${currentConfig.thick}|${currentConfig.color}|${vis}\n`);
     }
 }
 
 app.whenReady().then(() => {
-    // 1. Запускаем "железобетонный" C# прицел как невидимый дочерний процесс!
     let crossExe = app.isPackaged ? path.join(process.resourcesPath, 'Crosshair.exe') : path.join(__dirname, 'Crosshair.exe');
     csharpProcess = spawn(crossExe);
 
-    // 2. Открываем ультрасовременный интерфейс Electron
     settingsWindow = new BrowserWindow({
         width: 700,
         height: 580,
