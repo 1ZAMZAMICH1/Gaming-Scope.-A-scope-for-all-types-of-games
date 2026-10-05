@@ -1,0 +1,22 @@
+{
+  "name": "zgamecrosshairz",
+  "productName": "ZGameCrosshairZ",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win portable"
+  },
+  "build": {
+    "appId": "com.user.ultracrosshair",
+    "win": {
+      "target": "portable",
+      "icon": "icon.ico"
+    },
+    "extraResources": ["Crosshair.exe"]
+  },
+  "devDependencies": {
+    "electron": "^41.7.1",
+    "electron-builder": "^26.15.3"
+  }
+}

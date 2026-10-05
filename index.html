@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="titlebar">
+        <div class="drag-region">GAMING DASHBOARD</div>
+        <div style="display:flex; align-items:center; gap:20px; -webkit-app-region: no-drag;">
+            <div class="min-btn" onclick="require('electron').ipcRenderer.send('minimize-app')">—</div>
+            <div class="close-btn" onclick="require('electron').ipcRenderer.send('close-app')">✕</div>
+        </div>
+    </div>
+    <div class="container">
+        
+        <h2>CROSSHAIR STUDIO</h2>
+        
+        <label>Accent Color</label>
+        <input type="color" id="color" value="#00ff66">
+        
+        <label>Crosshair Shape</label>
+        <div class="switch-group">
+            <button class="active" onclick="setShape('Dot')">Dot</button>
+            <button onclick="setShape('Cross')">Cross</button>
+            <button onclick="setShape('CrossDot')">Cross + Dot</button>
+            <button onclick="setShape('Circle')">Circle</button>
+        </div>
+
+        <label>Scale / Size</label>
+        <input type="range" id="size" min="2" max="100" value="25">
+
+        <label>Stroke Thickness</label>
+        <input type="range" id="thick" min="1" max="20" value="2">
+
+        <label>Global Toggle Hotkey</label>
+        <button id="btn-bind" onclick="startBind()" class="bind-btn">Insert</button>
+    </div>
+    <script src="renderer.js"></script>
+</body>
+</html>

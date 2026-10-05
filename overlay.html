@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { margin: 0; padding: 0; overflow: hidden; background: transparent; }
+        #canvas { position: absolute; top:0; left:0; width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const { ipcRenderer } = require('electron');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            draw();
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        let state = { color: '#00ff66', size: 25, thick: 2, shape: 'Dot' };
+
+        ipcRenderer.on('update-crosshair', (e, data) => {
+            state = data;
+            draw();
+        });
+
+        function draw() {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            let cx = canvas.width / 2;
+            let cy = canvas.height / 2;
+            let s = state.size;
+            let h = s/2;
+            ctx.strokeStyle = state.color;
+            ctx.fillStyle = state.color;
+            ctx.lineWidth = state.thick;
+
+            ctx.beginPath();
+            if(state.shape === 'Dot') {
+                ctx.arc(cx, cy, s, 0, Math.PI*2);
+                ctx.fill();
+            } else if (state.shape === 'Cross') {
+                ctx.moveTo(cx - s, cy); ctx.lineTo(cx + s, cy);
+                ctx.moveTo(cx, cy - s); ctx.lineTo(cx, cy + s);
+                ctx.stroke();
+            } else if (state.shape === 'CrossDot') {
+                ctx.moveTo(cx - s, cy); ctx.lineTo(cx + s, cy);
+                ctx.moveTo(cx, cy - s); ctx.lineTo(cx, cy + s);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.fillStyle = "red";
+                ctx.arc(cx, cy, 3, 0, Math.PI*2);
+                ctx.fill();
+            } else if (state.shape === 'Circle') {
+                ctx.arc(cx, cy, s, 0, Math.PI*2);
+                ctx.stroke();
+            }
+        }
+        draw();
+    </script>
+</body>
+</html>
